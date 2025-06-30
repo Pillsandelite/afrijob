@@ -8,6 +8,8 @@ import '@fontsource/inter/700.css';
 
 import theme from './theme';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary';
+import { GlobalErrorHandler } from './components/shared/GlobalErrorHandler';
 import { LandingPage } from './components/LandingPage';
 import { SimpleAuthForm } from './components/auth/SimpleAuthForm';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -106,13 +108,16 @@ const AppRoutes: React.FC = () => {
 
 function App() {
   return (
-    <ChakraProvider theme={theme}>
-      <Router>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
-      </Router>
-    </ChakraProvider>
+    <ErrorBoundary>
+      <ChakraProvider theme={theme}>
+        <Router>
+          <AuthProvider>
+            <GlobalErrorHandler />
+            <AppRoutes />
+          </AuthProvider>
+        </Router>
+      </ChakraProvider>
+    </ErrorBoundary>
   );
 }
 
